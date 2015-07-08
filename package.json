@@ -1,0 +1,17 @@
+{
+  "name": "TerrariaWrapper",
+  "version": "0.1.0",
+  "description": "A node-based wrapper for the Terraria Dedicated Server software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Derek Surguy",
+  "license": "ISC",
+  "dependencies": {
+    "extend": "^3.0.0",
+    "q": "^1.4.1",
+    "unzip": "^0.1.11"
+  }
+}
