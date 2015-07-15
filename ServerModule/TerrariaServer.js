@@ -5,10 +5,55 @@ module.exports = TerrariaServer;
 function TerrariaServer(options){
 
 	this.options = extend(false, {
-		serverConfig: {
-			
-		}
+		//information for serverconfig.txt
+		config: {
+			server: {
+				worldFolder: undefined,
+				worldFileName: undefined,
+				maxPlayers: undefined,
+				port: undefined,
+				password: undefined,
+				banlist: undefined,
+				language: undefined,
+				motd: undefined
+			}, world: {
+				worldName: undefined,
+				worldSize: undefined,
+				difficulty: undefined
+			}
+		},
+		//url to the latest release of the dedicated server software
+		dedicatedServerDownload: 'http://terraria.org/server/terraria-server-1304.zip',
+		//directory that the server .zip will be downloaded to
+		downloadDirectory: './Server',
+		//directory to run the server in (.zip files will be extracted here)
+		serverDirectory: './Server',
+		//Custom name for the zip, in case of multiple instances/downloads
+		zipName: 'server.zip',
+		//interface used to capture input and listen/respond to events
+		io: undefined 
 	}, options);
+
+	this.init = function(io){
+		var TerrariaServer = this;
+		//1. Download the server software
+		this.downloadServer(this.options.dedicatedServerDownload, {
+			zipName: this.options.zipName,
+			downloadLocation: this.options.downloadDirectory
+		//2. Unzip to target directory
+		}).then(function (newZipFile){
+			return TerrariaServer.unzipServer({
+				fullZipPath: newZipFile,
+				unzipPath: TerrariaServer.options.serverDirectory
+			});
+		//3. Config Server
+		}).then(function (){
+			return TerrariaServer.createServerConfig(this.options.serverDirectory);
+		}).catch(function (err){
+			console.error(err);
+			console.error(err.stack)
+		});
+	};
 
 	this.createServerConfig = function (serverLocation){
 		var defer = Q.defer();
@@ -58,6 +103,52 @@ function TerrariaServer(options){
 
 		var that = this,
 			configData = {};
+
+		var configDefinition = [{
+			prompt: 'World File Folder (Default: ".\\Server\\Worlds")',
+			default: '.\\Server\\Worlds',
+			mapTo: 'worldFolder'
+		}, {
+			prompt: 'World File Name (Default: "Server")',
+			default: 'Server',
+			mapTo: 'worldFileName'
+		}, {
+			prompt: 'Maximum Players (Default: 8)',
+			default: 8,
+			mapTo: 'maxPlayers'
+		}, {
+			prompt: 'Port (Default: 7777)',
+			default: 7777,
+			mapTo: 'port'
+		}, {
+			prompt: 'password (Default: none)',
+			default: undefined,
+			mapTo: 'password'
+		}, {
+			prompt: 'File for banlist (Default: ".\\banlist.txt")',
+			default: '.\\banlist.txt',
+			mapTo: 'banlist'
+		}, {
+			prompt: 'Language 1=English, 2=German, 3=Italian, 4=French, 5=Spanish (Default: 1)',
+			default: 1,
+			mapTo: 'language'
+		}, {
+			prompt: 'MOTD (Default: "Welcome to Terraria!")',
+			default: 'Welcome to Terraria!',
+			mapTo: 'motd'
+		}, {
+			prompt: 'World Name (Default: "MyWorld")',
+			default: 'MyWorld',
+			mapTo: 'worldName'
+		}, {
+			prompt: 'World Size 1=small, 2=medium, 3=large (Default: 2)',
+			default: 2,
+			mapTo: 'worldSize'
+		}, {
+			prompt: 'Difficulty 0=Normal, 1=Expert (Default: 0)',
+			default: 0,
+			mapTo: 'diffculty'
+		}];
 
 		this.collectConfigPrompts(configData, 'server').then( function (updatedConfig){
 			return that.collectConfigPrompts(updatedConfig, 'world');
