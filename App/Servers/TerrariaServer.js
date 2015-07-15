@@ -32,7 +32,7 @@ function TerrariaServer(options){
 		zipName: 'server.zip',
 		//interface used to capture input and listen/respond to events
 		io: undefined 
-	}, options);
+	}, options ? options : {});
 
 	this.init = function(io){
 		var TerrariaServer = this;

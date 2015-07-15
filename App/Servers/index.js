@@ -1,0 +1,1 @@
+module.exports.TerrariaServer = require('./TerrariaServer.js');

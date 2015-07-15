@@ -55,15 +55,5 @@ The current release adds the following features, but is not feature-complete. Ve
 ### Next Planned Release (0.3.0)
 The next release will have the following features:
 
-- Silent Server Process
-- Expose server console for direct commands
-
-### All Planned Features (1.0.0)
-This is a list of all features planned for the 1.0.0 release
-
-- Automatic Backups
-- Web-based admin panel
-- Windows Service
-- Silent Server Process
-- Crash Handling
-- Expose server console for direct commands
+- Console-based manager
+- Dynamic Update Checker (No hard-coded paths for server software)

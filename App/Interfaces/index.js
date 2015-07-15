@@ -1,0 +1,1 @@
+module.exports.BaseInterface = require('./BaseInterface.js');

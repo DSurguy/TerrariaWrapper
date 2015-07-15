@@ -1,12 +1,10 @@
 var unzip = require('unzip'),
 	config = require('./config.js'),
-	GetServer = require('./GetServer.js'),
-	ConfigServer = require('./ConfigServer.js'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec,
 	Q = require('q');
 
-if( process.argv[2] == "-setup" ){
+/*if( process.argv[2] == "-setup" ){
 	var GetDefer = Q.defer();
 	GetServer.downloadServer(config.dedicatedServerDownload, {
 		downloadLocation: config.downloadDirectory,
@@ -34,4 +32,8 @@ else if( process.argv[2] == "-start" ){
 	} catch(e){
 		console.log(e);
 	}
-}
+}*/
+
+var app = require('./App/start.js');
+
+app.run();
