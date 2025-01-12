@@ -1,6 +1,11 @@
 {
   "name": "TerrariaWrapper",
   "version": "0.2.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
+  "type": "module",
   "description": "A node-based wrapper for the Terraria Dedicated Server software",
   "scripts": {
     "setup": "node index.js -setup",

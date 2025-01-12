@@ -1,13 +1,10 @@
-var unzip = require('unzip'),
-	config = require('./config.js'),
+import { createServerConfig } from './serverConfig.js';
+
+var config = require('./config.js'),
 	GetServer = require('./GetServer.js'),
-	ConfigServer = require('./ConfigServer.js'),
-	spawn = require('child_process').spawn,
-	exec = require('child_process').exec,
-	Q = require('q');
+	spawn = require('child_process').spawn;
 
 if( process.argv[2] == "-setup" ){
-	var GetDefer = Q.defer();
 	GetServer.downloadServer(config.dedicatedServerDownload, {
 		downloadLocation: config.downloadDirectory,
 		zipName: config.zipName
@@ -17,7 +14,7 @@ if( process.argv[2] == "-setup" ){
 			unzipPath: config.serverDirectory
 		});
 	}).then(function (){
-		return ConfigServer.createServerConfig(config.serverDirectory);
+		return createServerConfig(config.serverDirectory);
 	}).then(function (){
 		console.log('Setup Finished, run \'npm start\' to start the server! ');
 	}).catch(function (err){
@@ -27,7 +24,7 @@ if( process.argv[2] == "-setup" ){
 }
 else if( process.argv[2] == "-start" ){
 	try{
-		var serverProcess = spawn('TerrariaServer.exe', ['-config','serverconfig.txt'], {
+		spawn('TerrariaServer.exe', ['-config','serverconfig.txt'], {
 			stdio: 'inherit',
 			cwd: './Server'
 		});
