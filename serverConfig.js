@@ -15,7 +15,7 @@ export async function createServerConfig (serverLocation){
       '# Server Setup',
       'motd='+configData.server.motd,
       'port='+configData.server.port,
-      'password='+configData.server.password,
+      'password='+configData.server.password || '',
       'maxplayers='+configData.server.maxPlayers,
       'secure=1',
       'lang='+configData.server.language,
@@ -115,8 +115,8 @@ var configDefinition = {
     defaultValue: 2,
     key: 'worldSize'
   }, {
-    prompt: 'Difficulty 0=Normal, 1=Expert (0)',
+    prompt: 'Difficulty 0=Normal, 1=Expert, 2=Master, 3=Journey (0)',
     defaultValue: 0,
-    key: 'diffculty'
+    key: 'difficulty'
   }]
 };
