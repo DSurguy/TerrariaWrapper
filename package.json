@@ -1,5 +1,5 @@
 {
-  "name": "TerrariaWrapper",
+  "name": "terraria-server-wrapper",
   "version": "0.2.0",
   "engines": {
     "node": ">=20.0.0",
@@ -14,8 +14,6 @@
   "author": "Derek Surguy (Surguy.Derek@gmail.com)",
   "license": "ISC",
   "dependencies": {
-    "extend": "^3.0.0",
-    "q": "^1.4.1",
-    "unzip": "^0.1.11"
+    "decompress": "^4.2.1"
   }
 }

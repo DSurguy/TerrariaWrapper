@@ -1,19 +1,19 @@
 import { createServerConfig } from './serverConfig.js';
-
-var config = require('./config.js'),
-	GetServer = require('./GetServer.js'),
-	spawn = require('child_process').spawn;
+import { downloadServer, unzipServer } from './serverZip.js';
+import config from './config.js';
+import { spawn } from 'child_process';
 
 if( process.argv[2] == "-setup" ){
-	GetServer.downloadServer(config.dedicatedServerDownload, {
+	downloadServer(config.dedicatedServerDownload, {
 		downloadLocation: config.downloadDirectory,
 		zipName: config.zipName
 	}).then(function (fileLoc){
-		return GetServer.unzipServer({
+		return unzipServer({
 			fullZipPath: fileLoc,
 			unzipPath: config.serverDirectory
 		});
 	}).then(function (){
+		console.log("Server downloaded, now setting up config")
 		return createServerConfig(config.serverDirectory);
 	}).then(function (){
 		console.log('Setup Finished, run \'npm start\' to start the server! ');
