@@ -8,8 +8,8 @@
   "type": "module",
   "description": "A node-based wrapper for the Terraria Dedicated Server software",
   "scripts": {
-    "setup": "node index.js -setup",
-    "start": "node index.js -start"
+    "setup": "node setup.js",
+    "start": "node start.js"
   },
   "author": "Derek Surguy (Surguy.Derek@gmail.com)",
   "license": "ISC",

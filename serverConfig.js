@@ -1,16 +1,16 @@
 import { EOL } from 'os';
 import { resolve } from 'path';
 import { writeFile } from 'fs/promises';
+import config from './config.js';
 
-export async function createServerConfig (serverLocation){
+export async function createServerConfig (){
   try {
     const configData = await gatherConfig();
-    console.log(configData)
     
     var configString = [
       '# World File Settings',
-      'world='+resolve(configData.server.worldFolder, `${configData.world.worldName}.wld`),
-      'worldpath='+resolve(configData.server.worldFolder),
+      'world='+resolve(config.serverDirectory, 'worlds', configData.world.worldName+'.wld'),
+      'worldpath='+resolve(config.serverDirectory, 'worlds'),
       '',
       '# Server Setup',
       'motd='+configData.server.motd,
@@ -29,7 +29,7 @@ export async function createServerConfig (serverLocation){
       'diffculty='+configData.world.difficulty,
     ]
 
-    await writeFile(resolve(serverLocation, 'serverconfig.txt'), configString.join(EOL));
+    await writeFile(resolve(config.serverDirectory, 'serverconfig.txt'), configString.join(EOL));
   } catch (e) {
     console.error('Error writing serverconfig.txt');
     throw e;
@@ -74,14 +74,6 @@ async function collectConfigPrompts (promptGroup){
 
 var configDefinition = {
   server: [{
-    prompt: `World File Folder ("./Server/Worlds")`,
-    defaultValue: './Server/Worlds',
-    key: 'worldFolder'
-  }, {
-    prompt: 'World File Name ("Server")',
-    defaultValue: 'Server',
-    key: 'worldFileName'
-  }, {
     prompt: 'Maximum Players (8)',
     defaultValue: 8,
     key: 'maxPlayers'
@@ -91,12 +83,8 @@ var configDefinition = {
     key: 'port'
   }, {
     prompt: 'password (none)',
-    defaultValue: undefined,
+    defaultValue: '',
     key: 'password'
-  }, {
-    prompt: 'File for banlist ("./banlist.txt")',
-    defaultValue: './banlist.txt',
-    key: 'banlist'
   }, {
     prompt: 'Language 1=English, 2=German, 3=Italian, 4=French, 5=Spanish (1)',
     defaultValue: 1,
