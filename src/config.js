@@ -11,7 +11,7 @@ switch( platform() ) {
 
 export default {
 	// url to the latest release of the dedicated server software
-	dedicatedServerDownload: 'https://terraria.org/api/download/pc-dedicated-server/terraria-server-1449.zip',
+	dedicatedServerDownload: 'https://terraria.org/api/download/pc-dedicated-server/',
 	// directory to install the server in
 	serverDirectory: './server',
 	// OS-Specific folder to unzip from archive

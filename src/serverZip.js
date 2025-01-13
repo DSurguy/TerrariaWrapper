@@ -9,14 +9,19 @@ import config from './config.js';
 const zipFilePath = resolve(config.serverDirectory, 'server.zip');
 
 export async function downloadServer(){
-  //create the local directory to house the actual terraria server
+  // create the local directory to house the actual terraria server
   await mkdir(config.serverDirectory, {
     recursive: true
   })
 
-  //we created the directory or it already exists, attempt to download the server zip
+  // fetch the latest server release zip file name
+  const data = await fetch("https://terraria.org/api/get/dedicated-servers-names");
+  const zipName = (await data.json())[0];
+  const serverZipFullUrl = `${config.dedicatedServerDownload}${zipName}`
+
+  // attempt to download the server zip
+  const { body } = await fetch(serverZipFullUrl);
   var zipFileStream = createWriteStream(zipFilePath);
-  const { body } = await fetch(config.dedicatedServerDownload);
   await finished(Readable.fromWeb(body).pipe(zipFileStream));
   return zipFilePath;
 }
