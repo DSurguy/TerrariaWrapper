@@ -4,7 +4,7 @@ import { mkdir } from 'fs/promises';
 import { resolve, sep } from 'path';
 import { Readable } from 'stream';
 import { finished } from 'stream/promises';
-import config from './config.js';
+import config, { getPlatformConfig } from './config.js';
 
 const zipFilePath = resolve(config.serverDirectory, 'server.zip');
 
@@ -27,16 +27,16 @@ export async function downloadServer(){
 }
 
 export async function unzipServer () {
-  
+  const zipPath = getPlatformConfig().zipPath
   try{
     const files = await decompress(zipFilePath, config.serverDirectory, {
       filter: file =>
         file.type !== 'directory' &&
         !file.path.endsWith(sep) &&
         file.data.length !== 0 &&
-        file.path.includes(`${config.zipPlatformPath}/`),
+        file.path.includes(`${zipPath}/`),
       map: file => {
-        file.path = file.path.replace(new RegExp(`^.+${config.zipPlatformPath}`), config.zipPlatformPath)
+        file.path = file.path.replace(new RegExp(`^.+${zipPath}`), zipPath)
         return file;
       }
     });

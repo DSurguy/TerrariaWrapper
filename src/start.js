@@ -4,11 +4,11 @@
 // });
 import { spawn } from 'child_process';
 
-import config from './config.js';
+import config, { getPlatformConfig } from './config.js';
 import { resolve } from 'path';
 
 spawn(
-  'Linux/TerrariaServer.bin.x86_64',
+  getPlatformConfig().executablePath,
   ['-config', resolve(config.serverDirectory, 'serverconfig.txt')],
   {
     stdio: 'inherit',
