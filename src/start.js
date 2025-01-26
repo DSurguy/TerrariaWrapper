@@ -1,7 +1,3 @@
-// spawn('TerrariaServer.exe', ['-config','serverconfig.txt'], {
-//   stdio: 'inherit',
-//   cwd: './Server'
-// });
 import { spawn } from 'child_process';
 
 import config, { getPlatformConfig } from './config.js';
